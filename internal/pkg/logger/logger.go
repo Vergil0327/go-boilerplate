@@ -79,12 +79,27 @@ func AddHook(hook Hook) {
 }
 
 const (
+	TagKey      = "tag"
 	ErrStackKey = "stack"
 )
 
 type (
+	tagKey      struct{}
 	errStackKey struct{}
 )
+
+func NewTagContext(ctx context.Context, tag string) context.Context {
+	return context.WithValue(ctx, tagKey{}, tag)
+}
+
+func FromTagContext(ctx context.Context) string {
+	if v := ctx.Value(tagKey{}); v != "" {
+		if s, ok := v.(string); ok {
+			return s
+		}
+	}
+	return ""
+}
 
 func NewStackContext(ctx context.Context, stack error) context.Context {
 	return context.WithValue(ctx, errStackKey{}, stack)
