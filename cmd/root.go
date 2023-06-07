@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"boilerplate/internal/app"
+	"boilerplate/internal/pkg/logger"
 	"context"
 	"errors"
 	"os"
@@ -28,7 +29,11 @@ func Execute() {
 		os.Exit(1)
 	}
 
-	app.Run(context.Background(), app.SetConfigFile(cfgFile))
+	ctx := logger.NewTagContext(context.Background(), "__main__")
+	err := app.Run(ctx, app.SetConfigFile(cfgFile))
+	if err != nil {
+		logger.WithContext(ctx).Errorln(err.Error())
+	}
 }
 
 func init() {
