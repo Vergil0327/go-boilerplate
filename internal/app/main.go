@@ -1,6 +1,7 @@
 package app
 
 import (
+	"boilerplate/internal/pkg/config"
 	"context"
 	"os"
 	"os/signal"
@@ -19,17 +20,33 @@ func SetConfigFile(s string) Option {
 	}
 }
 
+func Init(ctx context.Context, opts ...Option) (func(), error) {
+	var o options
+	for _, setter := range opts {
+		setter(&o)
+	}
+
+	config.MustLoad(o.ConfigFile)
+	config.PrintWithJSON()
+
+	clean := func() {}
+	return clean, nil
+}
+
 // SIGHUP   Hangup detected on controlling terminal or death of controlling process
 // SIGINT   Interrupt from keyboard. equals os.Interrupt
 // SIGQUIT  Quit from keyboard
 // SIGTERM  Termination signal
-func Run(ctx context.Context, Options ...Option) error {
+func Run(ctx context.Context, opts ...Option) error {
 	state := 1
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)
 
-	// TODO: init application
+	cleanFunc, err := Init(ctx, opts...)
+	if err != nil {
+		return nil
+	}
 
 EXIT:
 	for {
@@ -44,6 +61,8 @@ EXIT:
 			break EXIT
 		}
 	}
+
+	cleanFunc()
 
 	time.Sleep(time.Second)
 	os.Exit(state)
