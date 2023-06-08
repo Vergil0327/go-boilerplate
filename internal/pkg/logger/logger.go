@@ -82,12 +82,14 @@ const (
 	TagKey      = "tag"
 	ErrStackKey = "stack"
 	TraceIDKey  = "trace_id"
+	UserIDKey   = "user_id"
 )
 
 type (
 	tagKey      struct{}
 	errStackKey struct{}
 	traceIDKey  struct{}
+	userIDKey   struct{}
 )
 
 func NewTagContext(ctx context.Context, tag string) context.Context {
@@ -130,6 +132,20 @@ func FromTraceIDContext(ctx context.Context) string {
 	return ""
 }
 
+func NewUserIDContext(ctx context.Context, userID uint64) context.Context {
+	return context.WithValue(ctx, userIDKey{}, userID)
+}
+
+func FromUserIDContext(ctx context.Context) uint64 {
+	v := ctx.Value(userIDKey{})
+	if v != nil {
+		if s, ok := v.(uint64); ok {
+			return s
+		}
+	}
+	return 0
+}
+
 // Create entry from context
 func WithContext(ctx context.Context) *Entry {
 	fields := logrus.Fields{}
@@ -144,6 +160,10 @@ func WithContext(ctx context.Context) *Entry {
 
 	if v := FromTagContext(ctx); v != "" {
 		fields[TagKey] = v
+	}
+
+	if v := FromUserIDContext(ctx); v != 0 {
+		fields[UserIDKey] = v
 	}
 
 	return logrus.WithContext(ctx).WithFields(fields)
