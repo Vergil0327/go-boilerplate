@@ -6,10 +6,15 @@
 
 package app
 
+import (
+	"boilerplate/internal/app/router"
+)
+
 // Injectors from wire.go:
 
 func BuildInjector() (*Injector, error) {
-	engine := InitGinEngine()
+	routerRouter := &router.Router{}
+	engine := InitGinEngine(routerRouter)
 	injector := &Injector{
 		Engine: engine,
 	}

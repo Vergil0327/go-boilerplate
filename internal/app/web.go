@@ -2,6 +2,7 @@ package app
 
 import (
 	"boilerplate/internal/app/middlewares"
+	"boilerplate/internal/app/router"
 	"boilerplate/internal/pkg/config"
 	"boilerplate/internal/pkg/logger"
 	"context"
@@ -13,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitGinEngine() *gin.Engine {
+func InitGinEngine(r router.IRouter) *gin.Engine {
 	cfg := config.C
 	gin.SetMode(cfg.RunMode)
 
@@ -34,7 +35,7 @@ func InitGinEngine() *gin.Engine {
 		app.Use(middlewares.GzipMiddleware())
 	}
 
-	// TODO: register routers
+	r.Register(app)
 
 	return app
 }
