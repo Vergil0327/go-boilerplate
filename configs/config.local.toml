@@ -62,18 +62,50 @@ RotationCount = 20
 # 日誌輪詢時間周期
 RotationTime = 24
 
-# redis配置信息
-[Redis]
-# 地址
-Addr = "127.0.0.1:6379"
-# 密碼
-Password = ""
+[Gorm]
+# 是否開啟调試模式
+Debug = true
+# 數據庫類型(目前支持的數據庫類型：mysql/sqlite3/postgres)
+DBType = "sqlite3"
+# 設置連接可以重用的最長時間(單位：秒)
+MaxLifetime = 7200
+# 設置數據庫的最大打開連接數
+MaxOpenConns = 150
+# 設置空閒連接池中的最大連接數
+MaxIdleConns = 50
+# 數據庫表名前缀
+TablePrefix = ""
+# 是否啟用自動映射數據庫表結構
+EnableAutoMigrate = true
 
-# 請求頻率限制
-[RateLimiter]
-# 是否啟用
-Enable = false
-# 每分鐘每个用戶允許的最大請求數量
-Count = 300
-# redis數據庫(如果存儲方式是redis，則指定存儲的數據庫)
-RedisDB = 10
+[MySQL]
+# 連接地址
+Host = "127.0.0.1"
+# 連接端口
+Port = 3306
+# 用戶名
+User = "root"
+# 密碼
+Password = "123456"
+# 數據庫
+DBName = "mysql_db"
+# 連接参數menu
+Parameters = "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+
+[Postgres]
+# 連接地址
+Host = "0.0.0.0"
+# 連接端口
+Port = 5432
+# 用戶名
+User = "user"
+# 密碼
+Password = "password"
+# 數據庫
+DBName = "postgresql"
+# SSL模式
+SSLMode = "disable"
+
+[Sqlite3]
+# 數據庫路經
+Path = "data/sqlite3.db"

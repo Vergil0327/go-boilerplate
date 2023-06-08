@@ -12,11 +12,18 @@ import (
 
 // Injectors from wire.go:
 
-func BuildInjector() (*Injector, error) {
+func BuildInjector() (*Injector, func(), error) {
 	routerRouter := &router.Router{}
 	engine := InitGinEngine(routerRouter)
+	db, cleanup, err := InitGormDB()
+	if err != nil {
+		return nil, nil, err
+	}
 	injector := &Injector{
 		Engine: engine,
+		DB:     db,
 	}
-	return injector, nil
+	return injector, func() {
+		cleanup()
+	}, nil
 }

@@ -44,7 +44,7 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 		return nil, err
 	}
 
-	injector, err := BuildInjector()
+	injector, cleanInjector, err := BuildInjector()
 	if err != nil {
 		return nil, err
 	}
@@ -52,6 +52,7 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 	cleanHTTP := InitHTTP(ctx, injector.Engine)
 
 	return func() {
+		cleanInjector()
 		cleanLogger()
 		cleanHTTP()
 	}, nil

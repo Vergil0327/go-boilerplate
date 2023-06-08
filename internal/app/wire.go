@@ -8,12 +8,13 @@ import (
 	"github.com/google/wire"
 )
 
-func BuildInjector() (*Injector, error) {
+func BuildInjector() (*Injector, func(), error) {
 	wire.Build(
+		InitGormDB,
 		router.RouterSet,
 		InitGinEngine,
 		InjectorSet,
 	)
 
-	return new(Injector), nil
+	return new(Injector), nil, nil
 }
