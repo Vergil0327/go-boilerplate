@@ -81,11 +81,13 @@ func AddHook(hook Hook) {
 const (
 	TagKey      = "tag"
 	ErrStackKey = "stack"
+	TraceIDKey  = "trace_id"
 )
 
 type (
 	tagKey      struct{}
 	errStackKey struct{}
+	traceIDKey  struct{}
 )
 
 func NewTagContext(ctx context.Context, tag string) context.Context {
@@ -114,12 +116,34 @@ func FromStackContext(ctx context.Context) error {
 	return nil
 }
 
+func NewTraceIDContext(ctx context.Context, traceID string) context.Context {
+	return context.WithValue(ctx, traceIDKey{}, traceID)
+}
+
+func FromTraceIDContext(ctx context.Context) string {
+	v := ctx.Value(traceIDKey{})
+	if v != nil {
+		if s, ok := v.(string); ok {
+			return s
+		}
+	}
+	return ""
+}
+
 // Create entry from context
 func WithContext(ctx context.Context) *Entry {
 	fields := logrus.Fields{}
 
 	if v := FromStackContext(ctx); v != nil {
 		fields[ErrStackKey] = fmt.Sprintf("%+v", v)
+	}
+
+	if v := FromTraceIDContext(ctx); v != "" {
+		fields[TraceIDKey] = v
+	}
+
+	if v := FromTagContext(ctx); v != "" {
+		fields[TagKey] = v
 	}
 
 	return logrus.WithContext(ctx).WithFields(fields)
