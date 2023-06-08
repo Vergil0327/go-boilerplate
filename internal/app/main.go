@@ -2,6 +2,7 @@ package app
 
 import (
 	"boilerplate/internal/pkg/config"
+	"boilerplate/internal/pkg/logger"
 	"context"
 	"os"
 	"os/signal"
@@ -11,12 +12,19 @@ import (
 
 type options struct {
 	ConfigFile string
+	Version    string
 }
 type Option func(*options)
 
 func SetConfigFile(s string) Option {
 	return func(opt *options) {
 		opt.ConfigFile = s
+	}
+}
+
+func SetVersion(s string) Option {
+	return func(opt *options) {
+		opt.Version = s
 	}
 }
 
@@ -28,6 +36,8 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 
 	config.MustLoad(o.ConfigFile)
 	config.PrintWithJSON()
+
+	logger.WithContext(ctx).Printf("Start server,#version %s,#pid %d", o.Version, os.Getpid())
 
 	clean := func() {}
 	return clean, nil

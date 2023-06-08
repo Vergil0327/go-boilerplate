@@ -28,7 +28,7 @@ dev:
 	${AIR} -c .air.conf
 
 start:
-	@go run -ldflags "-X main.VERSION=$(RELEASE_TAG)" ./main.go --config ./configs/config.local.toml
+	@go run -ldflags "-X main.VERSION=$(RELEASE_TAG)" ./main.go --config ./configs/config.local.toml --version $(RELEASE_VERSION)
 
 # Dependency Injection
 wire:

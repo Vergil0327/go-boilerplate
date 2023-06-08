@@ -12,6 +12,7 @@ import (
 
 var (
 	cfgFile string
+	version string
 	rootCmd = &cobra.Command{
 		Use:   "app",
 		Short: "backend boilerplate",
@@ -30,7 +31,10 @@ func Execute() {
 	}
 
 	ctx := logger.NewTagContext(context.Background(), "__main__")
-	err := app.Run(ctx, app.SetConfigFile(cfgFile))
+	err := app.Run(ctx,
+		app.SetConfigFile(cfgFile),
+		app.SetVersion(version),
+	)
 	if err != nil {
 		logger.WithContext(ctx).Errorln(err.Error())
 	}
@@ -38,4 +42,5 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "path to config file")
+	rootCmd.PersistentFlags().StringVar(&version, "version", "", "current version")
 }
