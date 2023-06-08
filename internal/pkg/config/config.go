@@ -18,6 +18,7 @@ var (
 type Config struct {
 	RunMode     string
 	PrintConfig bool
+	Log         Log
 
 	HTTP HTTP
 	CORS CORS
@@ -51,6 +52,15 @@ type GZIP struct {
 	Enable             bool
 	ExcludedExtentions []string
 	ExcludedPaths      []string
+}
+
+type Log struct {
+	Level         int
+	Format        string
+	Output        string
+	OutputFile    string
+	RotationCount int
+	RotationTime  int
 }
 
 func MustLoad(filePaths ...string) {

@@ -47,3 +47,17 @@ Enable = false
 ExcludedExtentions = [".png", ".gif", ".jpeg", ".jpg"]
 # 排除的請求路經
 ExcludedPaths = []
+
+[Log]
+# 日誌级别(1:fatal 2:error,3:warn,4:info,5:debug,6:trace)
+Level = 5
+# 日誌格式（支持輸出格式：text/json）
+Format = "text"
+# 日誌輸出(支持：stdout/stderr/file)
+Output = "stdout"
+# 指定日誌輸出的文件路經
+OutputFile = "data/output.log"
+# 日誌輪詢數量
+RotationCount = 20
+# 日誌輪詢時間周期
+RotationTime = 24
