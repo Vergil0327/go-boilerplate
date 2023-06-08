@@ -1,0 +1,27 @@
+# 啟動時是否印出配置參數
+PrintConfig = true
+
+# debug:開發,test:測試,release:正式
+RunMode = "debug"
+
+[HTTP]
+# http listening address
+Host = "0.0.0.0"
+# http listening port
+Port = 10088
+# 證書路經
+CertFile = ""
+# 證書密鑰
+KeyFile = ""
+# http優雅關閉等待超時時長(單位秒)
+ShutdownTimeout = 30
+# 允許的最大内容長度(64M)
+MaxContentLength = 67108864
+# 允許輸出的最大請求日誌長度
+MaxReqLoggerLength = 1024
+# maximum duration for reading the entire request, including the body (單位:sec)
+ReadTimeout = 10
+# the maximum duration before timing out writes of the response. (單位:sec)
+WriteTimeout = 30
+# the maximum amount of time to wait for the next request when keep-alives are enabled. (單位:sec)
+IdleTimeout = 30

@@ -16,7 +16,24 @@ var (
 )
 
 type Config struct {
+	RunMode     string
 	PrintConfig bool
+
+	HTTP HTTP
+}
+
+type HTTP struct {
+	Host               string
+	Port               int
+	CertFile           string
+	KeyFile            string
+	ShutdownTimeout    int
+	MaxContentLength   int64
+	MaxReqLoggerLength int `default:"1024"`
+	MaxResLoggerLength int
+	ReadTimeout        int
+	WriteTimeout       int
+	IdleTimeout        int
 }
 
 func MustLoad(filePaths ...string) {

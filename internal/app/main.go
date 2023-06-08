@@ -39,8 +39,12 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 
 	logger.WithContext(ctx).Printf("Start server,#version %s,#pid %d", o.Version, os.Getpid())
 
-	clean := func() {}
-	return clean, nil
+	engine := InitGinEngine(ctx)
+	cleanHTTP := InitHTTP(ctx, engine)
+
+	return func() {
+		cleanHTTP()
+	}, nil
 }
 
 // SIGHUP   Hangup detected on controlling terminal or death of controlling process
