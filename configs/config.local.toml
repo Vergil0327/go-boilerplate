@@ -39,3 +39,11 @@ AllowHeaders = ["content-type", "authorization"]
 AllowCredentials = true
 # 可以缓存预检請求结果的時間（以秒為單位）
 MaxAge = 7200
+
+[GZIP]
+# 是否啟用
+Enable = false
+# 排除的文件擴展名
+ExcludedExtentions = [".png", ".gif", ".jpeg", ".jpg"]
+# 排除的請求路經
+ExcludedPaths = []

@@ -21,6 +21,7 @@ type Config struct {
 
 	HTTP HTTP
 	CORS CORS
+	GZIP GZIP
 }
 
 type HTTP struct {
@@ -44,6 +45,12 @@ type CORS struct {
 	AllowHeaders     []string
 	AllowCredentials bool
 	MaxAge           int
+}
+
+type GZIP struct {
+	Enable             bool
+	ExcludedExtentions []string
+	ExcludedPaths      []string
 }
 
 func MustLoad(filePaths ...string) {
