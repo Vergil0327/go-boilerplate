@@ -25,3 +25,17 @@ ReadTimeout = 10
 WriteTimeout = 30
 # the maximum amount of time to wait for the next request when keep-alives are enabled. (單位:sec)
 IdleTimeout = 30
+
+[CORS]
+# 是否啟用
+Enable = true
+# 允許跨域請求的域名列表(*表示全部允許)
+AllowOrigins = ["*"]
+# 允許跨域請求的請求方式列表
+AllowMethods = ["GET", "POST", "PUT", "DELETE", "PATCH"]
+# 允許客戶端与跨域請求一起使用的非簡單標頭的列表
+AllowHeaders = ["content-type", "authorization"]
+# 請求是否可以包含cookie，HTTP身份驗證或客戶端SSL證書等用戶憑據
+AllowCredentials = true
+# 可以缓存预检請求结果的時間（以秒為單位）
+MaxAge = 7200
