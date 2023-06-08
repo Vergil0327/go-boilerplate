@@ -1,6 +1,7 @@
 package app
 
 import (
+	"boilerplate/internal/app/middlewares"
 	"boilerplate/internal/pkg/config"
 	"boilerplate/internal/pkg/logger"
 	"context"
@@ -18,7 +19,20 @@ func InitGinEngine() *gin.Engine {
 
 	app := gin.New()
 
-	// TODO: middlewares
+	// middlewares
+	app.NoMethod(middlewares.NoMethodHandler())
+	app.NoRoute(middlewares.NoRouteHandler())
+
+	app.Use(middlewares.TraceMiddleware())
+	app.Use(middlewares.LoggerMiddleware())
+
+	if cfg.CORS.Enable {
+		app.Use(middlewares.CORSmiddleware())
+	}
+
+	if cfg.GZIP.Enable {
+		app.Use(middlewares.GzipMiddleware())
+	}
 
 	// TODO: register routers
 
