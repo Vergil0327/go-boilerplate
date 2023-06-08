@@ -14,7 +14,7 @@ import (
 	"golang.org/x/time/rate"
 )
 
-func RateLimiterMiddleware() gin.HandlerFunc {
+func RateLimiterMiddleware(skippers ...SkipperFunc) gin.HandlerFunc {
 	cfg := config.C
 
 	if !cfg.RateLimiter.Enable {
@@ -35,6 +35,11 @@ func RateLimiterMiddleware() gin.HandlerFunc {
 	limiter.Fallback = rate.NewLimiter(rate.Inf, 0)
 
 	return func(c *gin.Context) {
+		if SkipHandler(c, skippers...) {
+			c.Next()
+			return
+		}
+
 		userID := contextx.FromUserID(c.Request.Context())
 
 		if userID != 0 {

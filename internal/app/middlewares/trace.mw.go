@@ -8,8 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TraceMiddleware() gin.HandlerFunc {
+func TraceMiddleware(skippers ...SkipperFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if SkipHandler(c, skippers...) {
+			c.Next()
+			return
+		}
+
 		traceID := c.GetHeader("X-Request-Id")
 		if traceID == "" {
 			traceID = trace.NewTraceID()

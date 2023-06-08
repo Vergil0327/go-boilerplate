@@ -7,8 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func LoggerMiddleware() gin.HandlerFunc {
+func LoggerMiddleware(skippers ...SkipperFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if SkipHandler(c, skippers...) {
+			c.Next()
+			return
+		}
+
 		path := c.Request.URL.Path
 
 		start := time.Now()

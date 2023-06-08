@@ -24,8 +24,9 @@ func InitGinEngine(r router.IRouter) *gin.Engine {
 	app.NoMethod(middlewares.NoMethodHandler())
 	app.NoRoute(middlewares.NoRouteHandler())
 
-	app.Use(middlewares.TraceMiddleware())
-	app.Use(middlewares.LoggerMiddleware())
+	prefixes := r.Prefixes()
+	app.Use(middlewares.TraceMiddleware(middlewares.NotAllowPathPrefixSkip(prefixes...)))
+	app.Use(middlewares.LoggerMiddleware(middlewares.NotAllowPathPrefixSkip(prefixes...)))
 
 	if cfg.CORS.Enable {
 		app.Use(middlewares.CORSmiddleware())
