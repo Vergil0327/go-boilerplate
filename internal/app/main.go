@@ -39,8 +39,12 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 
 	logger.WithContext(ctx).Printf("Start server,#version %s,#pid %d", o.Version, os.Getpid())
 
-	engine := InitGinEngine(ctx)
-	cleanHTTP := InitHTTP(ctx, engine)
+	injector, err := BuildInjector()
+	if err != nil {
+		return nil, err
+	}
+
+	cleanHTTP := InitHTTP(ctx, injector.Engine)
 
 	return func() {
 		cleanHTTP()

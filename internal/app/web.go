@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitGinEngine(ctx context.Context) *gin.Engine {
+func InitGinEngine() *gin.Engine {
 	cfg := config.C
 	gin.SetMode(cfg.RunMode)
 
