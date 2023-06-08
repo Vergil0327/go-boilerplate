@@ -7,21 +7,21 @@ NOW = $(shell date -u '+%Y%m%d%I%M%S')
 
 RELEASE_VERSION = 0.0.1
 
-APP 			= boilerplate
-SERVER_BIN  	= ./cmd/${APP}/${APP}
+APP 			= main
+SERVER_BIN  	= ./build/${APP}
 GIT_COUNT 		= $(shell git rev-list --all --count)
 GIT_HASH        = $(shell git rev-parse --short HEAD)
 RELEASE_TAG     = $(RELEASE_VERSION).$(GIT_COUNT).$(GIT_HASH)
 
-TARGET = ./cmd/${APP}
+TARGET = ./${APP}
 
 all: start
 
 build:
-	@go build -ldflags "-w -s -X main.VERSION=$(RELEASE_TAG)" -o $(SERVER_BIN) ./cmd/${APP}
+	@go build -ldflags "-w -s -X main.VERSION=$(RELEASE_TAG)" -o $(SERVER_BIN) ./$(APP)
 
 analysis:
-	@go build -gcflags="-m" $(TARGET)
+	@go build -gcflags="-m" -o $(SERVER_BIN) ./
 
 # Live Reload
 dev:
