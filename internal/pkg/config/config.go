@@ -20,6 +20,7 @@ type Config struct {
 	PrintConfig bool
 
 	HTTP HTTP
+	CORS CORS
 }
 
 type HTTP struct {
@@ -34,6 +35,15 @@ type HTTP struct {
 	ReadTimeout        int
 	WriteTimeout       int
 	IdleTimeout        int
+}
+
+type CORS struct {
+	Enable           bool
+	AllowOrigins     []string
+	AllowMethods     []string
+	AllowHeaders     []string
+	AllowCredentials bool
+	MaxAge           int
 }
 
 func MustLoad(filePaths ...string) {
