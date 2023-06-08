@@ -19,6 +19,8 @@ type Config struct {
 	RunMode     string
 	PrintConfig bool
 	Log         Log
+	RateLimiter RateLimiter
+	Redis       Redis
 
 	HTTP HTTP
 	CORS CORS
@@ -61,6 +63,17 @@ type Log struct {
 	OutputFile    string
 	RotationCount int
 	RotationTime  int
+}
+
+type RateLimiter struct {
+	Enable  bool
+	Count   int64
+	RedisDB int
+}
+
+type Redis struct {
+	Addr     string
+	Password string
 }
 
 func MustLoad(filePaths ...string) {

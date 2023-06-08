@@ -61,3 +61,19 @@ OutputFile = "data/output.log"
 RotationCount = 20
 # 日誌輪詢時間周期
 RotationTime = 24
+
+# redis配置信息
+[Redis]
+# 地址
+Addr = "127.0.0.1:6379"
+# 密碼
+Password = ""
+
+# 請求頻率限制
+[RateLimiter]
+# 是否啟用
+Enable = false
+# 每分鐘每个用戶允許的最大請求數量
+Count = 300
+# redis數據庫(如果存儲方式是redis，則指定存儲的數據庫)
+RedisDB = 10
